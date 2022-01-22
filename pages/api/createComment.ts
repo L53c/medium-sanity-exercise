@@ -2,10 +2,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import sanityClient from "@sanity/client";
 
-type Data = {
-  message: string;
-  // err: any;
-};
+// type Data = {
+//   message: string;
+//   error: any;
+// };
 
 const config = {
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
@@ -18,7 +18,7 @@ const client = sanityClient(config);
 
 export default async function createComment(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
   const { _id, name, email, comment } = JSON.parse(req.body);
 
@@ -33,8 +33,8 @@ export default async function createComment(
       email,
       comment,
     });
-  } catch (err) {
-    return res.status(500).json({ message: 'Could not submit comment', err });
+  } catch (error) {
+    return res.status(500).json({ message: 'Could not submit comment', error });
   }
   
   console.log('Comment submitted');
